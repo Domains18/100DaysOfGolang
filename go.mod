@@ -1,3 +1,3 @@
-module booking-app
+module github.com/Domains18/golang-grpc
 
-go 1.20
+go 1.21.3
