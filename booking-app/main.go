@@ -12,13 +12,10 @@ func main() {
 	const conferenceTickets = 50
 	var remainingTickets = 50
 	//println ensures next code printed out is on the next line
-	fmt.Println("Welcome to our", conferenceName, "application")
+	//ptintf allows us to format the string
+	fmt.Printf("Welcome to our %v application", conferenceName + "\n")
 	fmt.Println("Get your tickets her to attend", "only ", remainingTickets, "tickets remaining")
+	fmt.Printf("conference tickets are %v and remaining tickets are %v", conferenceTickets, remainingTickets)
 
-	fmt.Println(conferenceName)
-	for(remainingTickets > 0){
-		remainingTickets--
-		fmt.Println("Remaining tickets", remainingTickets)
-	}
 }
  
