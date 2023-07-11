@@ -1,2 +1,2 @@
-# @ 100DaysOfGolang
+ # 100DaysOfGolang
 Golang learning repository
