@@ -9,12 +9,13 @@ import (
 )
 
 type TheInvoicerServer struct {
+	invoicer.UnimplementedInvoicerServer
 }
 
-func (s TheInvoicerServer) Create(context.Context, *invoicer.CreateRequest) (*invoicer.CreateResponse, error) {
+func (s TheInvoicerServer) Create(ctx context.Context, req *invoicer.CreateRequest) (*invoicer.CreateResponse, error) {
 	return &invoicer.CreateResponse{
-		Pdf: []byte("Hello World!"),
-		Docx: []byte("Hello World!"),
+		Pdf: []byte(req.From),
+		Docx: []byte(req.To),
 	}, nil
 }
 func main() {
@@ -22,6 +23,15 @@ func main() {
 	if err != nil {
 		log.Fatalf("Error creating listener: %s", err)
 	}
-	S := grpc.NewServer{}
-	invoicer.RegisterInvoicerServer()
+
+	serverRegistrar := grpc.NewServer()
+	service := TheInvoicerServer{}
+	invoicer.RegisterInvoicerServer(serverRegistrar, &service)
+	if err := serverRegistrar.Serve(lis); err != nil {
+		log.Fatalf("Failed to serve: %s", err)
+	}
+	err = serverRegistrar.Serve(lis)
+	if err != nil {
+		log.Fatalf("Failed to serve: %s", err)
+	}
 }

@@ -5,6 +5,7 @@ message CreateRequest{
     Amount amount = 1;
     string from = 2;
     string to = 3;
+    string VATNumber = 4;
 }
 message Amount{
     int64 amount = 1;
