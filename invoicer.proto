@@ -1,5 +1,5 @@
 syntax = "proto3";
-option go_package = "github.com/Domains18/golang-grpc/invoicervo";
+option go_package = "github.com/Domains18/golang-grpc/invoicer";
 
 message CreateRequest{
     Amount amount = 1;
