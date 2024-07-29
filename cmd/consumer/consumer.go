@@ -16,7 +16,7 @@ import (
 const (
 	ConsumerGroup = "notifications-group"
 	ConsumerTopic = "notifications"
-	ConsumePort   = ":8081"
+	ConsumerPort   = ":8081"
 	KafkaServerAddress = "localhost:9092"
 )
 
@@ -124,4 +124,27 @@ func handleNotifications(ctx *gin.Context, store *NotificationStore){
 		return
 	}
 	ctx.JSON(http.StatusOK, gin.H{"notifications": notes})
+}
+
+func main() {
+    store := &NotificationStore{
+        data: make(UserNotifications),
+    }
+
+    ctx, cancel := context.WithCancel(context.Background())
+    go setupConsumerGroup(ctx, store)
+    defer cancel()
+
+    gin.SetMode(gin.ReleaseMode)
+    router := gin.Default()
+    router.GET("/notifications/:userID", func(ctx *gin.Context) {
+        handleNotifications(ctx, store)
+    })
+
+    fmt.Printf("Kafka CONSUMER (Group: %s) 👥📥 "+
+        "started at http://localhost%s\n", ConsumerGroup, ConsumerPort)
+
+    if err := router.Run(ConsumerPort); err != nil {
+        log.Printf("failed to run the server: %v", err)
+    }
 }
